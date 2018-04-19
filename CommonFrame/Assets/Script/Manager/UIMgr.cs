@@ -26,7 +26,7 @@ public class UIMgr : MgrBase
     }
 
    
-    public override void SendMsg(MsgBase msg)
+    public  void SendMsg(MsgBase msg)
     {
         if(msg.GetMgr() == MgrId.UIMgr)
         {
@@ -35,8 +35,9 @@ public class UIMgr : MgrBase
         else
         {
             //通知消息处理中心
+            MgrCenter.ins.SendMsg(msg);
         }
-        base.SendMsg(msg);
+      
     }
 
     public void RegisterGameObject(string name, GameObject go)

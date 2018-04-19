@@ -13,14 +13,12 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectGenerator>VSTU</UnityProjectGenerator>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2017.1.0f3</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -94,6 +92,7 @@
     <Compile Include="Assets\Script\Common\UIBase.cs" />
     <Compile Include="Assets\Script\Manager\EventNode.cs" />
     <Compile Include="Assets\Script\Manager\MgrBase.cs" />
+    <Compile Include="Assets\Script\Manager\MgrCenter.cs" />
     <Compile Include="Assets\Script\Manager\UIMgr.cs" />
     <Compile Include="Assets\Script\Msg\MsgBase.cs" />
     <Compile Include="Assets\Script\UI\LoadPanelTest.cs" />

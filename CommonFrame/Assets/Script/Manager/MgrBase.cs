@@ -146,8 +146,5 @@ public class MgrBase : MonoBase
         }
     }
 
-    public virtual void SendMsg(MsgBase msg)
-    {
-
-    }
+   
 }
