@@ -1,0 +1,16 @@
+ManifestFileVersion: 0
+CRC: 3961828455
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: sceneone/load.ld
+      Dependencies: {}
+    Info_1:
+      Name: sceneone/loadtwo.ld
+      Dependencies: {}
+    Info_2:
+      Name: sceneone/register.ld
+      Dependencies: {}
+    Info_3:
+      Name: sceneone.u3d
+      Dependencies: {}

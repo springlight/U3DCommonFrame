@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Art/Scenes/SceneOne/SceneOne.unity
+- path: Assets/Art/Scenes/SceneOne/SceneOne111.unity
   isLoaded: 1
   isActive: 1
