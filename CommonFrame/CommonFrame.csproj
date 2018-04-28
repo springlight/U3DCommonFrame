@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\Assets\IABLoader.cs" />
+    <Compile Include="Assets\Script\Assets\IABManifestLoader.cs" />
     <Compile Include="Assets\Script\Assets\IABMgr.cs" />
     <Compile Include="Assets\Script\Assets\IABRelationMgr.cs" />
     <Compile Include="Assets\Script\Assets\IABResLoader.cs" />

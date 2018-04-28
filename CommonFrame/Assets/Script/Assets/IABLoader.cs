@@ -81,7 +81,7 @@ namespace Assets.Script.Assets
             if (progress >= 1.0f)
             {
                 if (loadFinishFun != null)
-                    loadFinishFun();
+                    loadFinishFun(bundleName);
                 resLoader = new IABResLoader(wwwLoader.assetBundle);
             }
             else
