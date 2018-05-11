@@ -17,6 +17,8 @@ using UnityEngine;
 
 namespace Assets.Script.Assets
 {
+
+    public delegate void LoadAssetBundleCallBack(string sceneName, string bundleName);
     /// <summary>
     ///单个物体，有可能多个
     /// </summary>
@@ -101,6 +103,12 @@ namespace Assets.Script.Assets
         public bool IsLoadedAssetBundle(string bundleName)
         {
             return false;
+        }
+        private string sceneName;
+
+        public IABMgr(string sceneName)
+        {
+            this.sceneName = sceneName;
         }
 
         /// <summary>
@@ -230,6 +238,22 @@ namespace Assets.Script.Assets
             loadObj.Clear();
         }
 
+
+        public void LoadAssetBundle(string bundle, LoadProgress loadProgress, LoadAssetBundleCallBack callBack)
+        {
+            if (!loadHelper.ContainsKey(bundle))
+            {
+                IABRelationMgr loader = new IABRelationMgr();
+                loader.Init(bundle,loadProgress);
+                loadHelper.Add(bundle,loader);
+                callBack(sceneName,bundle);
+
+            }
+            else
+            {
+                Debug.Log("IABMgr has contains bundle name ==" + bundle);
+            }
+        }
         /// <summary>
         /// 加载assetbundle，必须先加载manifest
         /// </summary>
@@ -237,7 +261,56 @@ namespace Assets.Script.Assets
         /// <returns></returns>
         public IEnumerator LoadAssetBundle(string bundleName)
         {
-            yield return null;
+            while (!IABManifestLoader.ins.IsLoadFinish())
+            {
+                yield return null;
+            }
+            //加载各种依赖关系
+            IABRelationMgr loader = loadHelper[bundleName];
+            string[] depences = GetDepedences(bundleName);
+
+            loader.SetDepedences(depences);
+
+            for(int i = 0; i < depences.Length; i++)
+            {
+                yield return LoadAssetBundleDependences(depences[i], bundleName,loader.GetProgress());
+            }
+            yield return loader.LoadAssetBundle();
+        }
+
+        /// <summary>
+        /// 循环加载依赖关系
+        /// </summary>
+        /// <param name="bundleName"></param>
+        /// <param name="refName"></param>
+        /// <param name="progress"></param>
+        /// <returns></returns>
+        public IEnumerator LoadAssetBundleDependences(string bundleName,string refName,LoadProgress progress)
+        {
+            if (!loadHelper.ContainsKey(bundleName))
+            {
+                IABRelationMgr loader = new IABRelationMgr();
+                loader.Init(bundleName, progress);
+                if(refName != null)
+                {
+                    loader.AddRefference(refName);
+                }
+                loadHelper.Add(bundleName, loader);
+                yield return LoadAssetBundle(bundleName);
+            }
+            else
+            {
+                if (refName != null)
+                {
+                    IABRelationMgr loader = loadHelper[bundleName];
+                    loader.AddRefference(refName);
+
+                }
+            }
+        }
+        private string [] GetDepedences(string bundleName)
+        {
+            return IABManifestLoader.ins.GetDepedences(bundleName);
         }
     }
     

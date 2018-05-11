@@ -33,9 +33,9 @@ namespace Assets.Script.Assets
         /// eg ，yy aa refer xx
         /// </summary>
         List<string> refferBundle = null;
-
+        string bundleName;
         IABLoader assetLoader;
-
+        private LoadProgress loadProcess;
         public IABRelationMgr()
         {
             depedenceBundle = new List<string>();
@@ -114,18 +114,27 @@ namespace Assets.Script.Assets
             }
         }
 
-        public void Init(LoadProgress progress)
+        public void Init(string bundleName, LoadProgress progress)
         {
             isLoadFinish = false;
+            this.bundleName = bundleName;
+            loadProcess = progress;
             assetLoader = new IABLoader(BundleLoadFinish, progress);
         }
 
+        public LoadProgress GetProgress()
+        {
+            return loadProcess;
+        }
         public void BundleLoadFinish(string bundleName)
         {
             isLoadFinish = true;
         }
 
-       
+       public string GetBundleName()
+        {
+            return bundleName;
+        }
         /// <summary>
         /// 设置依赖
         /// </summary>

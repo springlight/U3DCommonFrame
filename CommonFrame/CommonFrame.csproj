@@ -95,6 +95,9 @@
     <Compile Include="Assets\Script\Assets\IABMgr.cs" />
     <Compile Include="Assets\Script\Assets\IABRelationMgr.cs" />
     <Compile Include="Assets\Script\Assets\IABResLoader.cs" />
+    <Compile Include="Assets\Script\Assets\IABSceneMgr.cs" />
+    <Compile Include="Assets\Script\Assets\ILoaderMgr.cs" />
+    <Compile Include="Assets\Script\Common\IPathTools.cs" />
     <Compile Include="Assets\Script\Common\MonoBase.cs" />
     <Compile Include="Assets\Script\Common\UIBase.cs" />
     <Compile Include="Assets\Script\Manager\EventNode.cs" />

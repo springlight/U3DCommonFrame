@@ -8,6 +8,7 @@
  * 加载assetbundle必须先加载manifest，此类就是加载manifest
  *  -------------------------------------------------------------------------*/
 
+using Assets.Script.Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -40,6 +41,8 @@ namespace Assets.Script.Assets
         public IABManifestLoader()
         {
             manifestPath = null;
+
+            manifestPath = IPathTools.GetAssetBundlePath();
         }
         public void SetManifestPath(string path)
         {
@@ -60,7 +63,7 @@ namespace Assets.Script.Assets
             yield return manifest;
             if (!string.IsNullOrEmpty(manifest.error))
             {
-                Debug.LogError("manifest error ");
+                Debug.LogError(manifest.error);
             }
             else
             {

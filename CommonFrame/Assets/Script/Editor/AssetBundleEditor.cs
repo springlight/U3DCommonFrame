@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
+using Assets.Script.Common;
+
 public class AssetBundleEditor
 {
 
     [MenuItem("ITools/BuildAssetBundle")]
     public static void BuildAssetBundle()
     {
-        string outPath = Application.dataPath + "/AssetBundle";
+        string outPath = IPathTools.GetAssetBundlePath();// Application.streamingAssetsPath + "/AssetBundle";
         //待研究打包API
         BuildPipeline.BuildAssetBundles(outPath, 0, EditorUserBuildSettings.activeBuildTarget);
         AssetDatabase.Refresh();
