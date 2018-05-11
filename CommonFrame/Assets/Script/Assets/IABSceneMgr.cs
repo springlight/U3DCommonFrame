@@ -9,10 +9,12 @@
 
 using Assets.Script.Common;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.Script.Assets
 {
@@ -33,6 +35,8 @@ namespace Assets.Script.Assets
         {
             string txtFileName = "Record.txt";
             string path = IPathTools.GetAssetBundlePath() + "/" + sceneName + txtFileName;
+      //     string path = Application.persistentDataPath +"/AssetBundle/" + sceneName + txtFileName;
+            ReadConfig(path);
         }
 
 
@@ -43,7 +47,7 @@ namespace Assets.Script.Assets
             ///读第一行
             string line = br.ReadLine();
             int allCnt = int.Parse(line);
-            for(int I = 0; I <allCnt; i++)
+            for(int i = 0; i <allCnt; i++)
             {
                 string tmpStr = br.ReadLine();
                 string [] arr = tmpStr.Split(" ".ToCharArray());
@@ -53,7 +57,104 @@ namespace Assets.Script.Assets
             fs.Close();
         }
 
-        
+        public void LoadAsset(string bundleName ,LoadProgress progress,LoadAssetBundleCallBack callBack)
+        {
+            if (allAsset.ContainsKey(bundleName))
+            {
+                string tmpValue = allAsset[bundleName];
+                abMgr.LoadAssetBundle(tmpValue, progress, callBack);
+            }
+            else
+            {
+                Debug.LogError("lOADaSSET ERROR");
+            }
+        }
+
+        public IEnumerator LoadAssetSys(string bundleName)
+        {
+            yield return abMgr.LoadAssetBundle(bundleName);
+        }
+
+        public UnityEngine.Object GetSingleRes(string bundleName,string resName)
+        {
+            if (allAsset.ContainsKey(bundleName))
+            {
+                return abMgr.GetSingleRes(allAsset[bundleName], resName);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public UnityEngine.Object [] GetMutilRes(string bundleName,string resName)
+        {
+            if (allAsset.ContainsKey(bundleName))
+            {
+                return abMgr.GetMutilRes(allAsset[bundleName], resName);
+            }
+            else
+            {
+                return null;
+            }
+        }
+        /// <summary>
+        /// 释放单个资源
+        /// </summary>
+        /// <param name="bundleName"></param>
+        /// <param name="resName"></param>
+        public void DisposeResObj(string bundleName,string resName)
+        {
+
+            if (allAsset.ContainsKey(bundleName))
+            {
+                abMgr.DisposeResObj(allAsset[bundleName], resName);
+            }
+            else
+            {
+                
+            }
+        }
+
+        public void DisposeBundleRes(string bundleName)
+        {
+            if (allAsset.ContainsKey(bundleName))
+            {
+                abMgr.DisposeResObj(allAsset[bundleName]);
+            }
+            else
+            {
+
+            }
+        }
+
+        public void DisposeAllRes()
+        {
+            abMgr.DisposeAllObj();
+        }
+
+        public void DisposeBundle(string bundleName)
+        {
+            if (allAsset.ContainsKey(bundleName))
+            {
+               // abMgr.DisposeBundle(allAsset[bundleName]);
+                abMgr.DisposeBundle(bundleName);
+            }
+            else
+            {
+
+            }
+        }
+         
+        public void DisposeBundleAndRes()
+        {
+            abMgr.DisposeAllBundleAndRes();
+        }
+
+        public void DisposeAllbundle()
+        {
+            abMgr.DisposeAllBundle();
+        }
     }
     
 }

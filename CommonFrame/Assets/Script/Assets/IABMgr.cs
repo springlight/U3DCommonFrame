@@ -238,7 +238,46 @@ namespace Assets.Script.Assets
             loadObj.Clear();
         }
 
+        public void DisposeBundle(string bundleName)
+        {
+            if (loadHelper.ContainsKey(bundleName))
+            {
+                IABRelationMgr loader = loadHelper[bundleName];
+                List<string> depences = loader.GetDepedences();
+                for(int i = 0; i < depences.Count; i++)
+                {
+                    if (loadHelper.ContainsKey(depences[i]))
+                    {
+                        ///单个依赖关系
+                        IABRelationMgr dependence = loadHelper[depences[i]];
+                        if (dependence.RemoveRefference(bundleName))
+                        {
+                            DisposeBundle(dependence.GetBundleName());
+                        }
+                    }
+                }
+                if(loader.GetRefference().Count <= 0)
+                {
+                    loader.Dispose();
+                    loadHelper.Remove(bundleName);
+                }
+            }
+        }
+        public void DisposeAllBundle()
+        {
+            foreach (string key in loadHelper.Keys)
+            {
+                loadHelper[key].Dispose();
+                //   DisposeBundle(key);
+            }
+            loadHelper.Clear();
+        }
 
+        public void DisposeAllBundleAndRes()
+        {
+            DisposeAllObj();
+            DisposeAllBundle();
+        }
         public void LoadAssetBundle(string bundle, LoadProgress loadProgress, LoadAssetBundleCallBack callBack)
         {
             if (!loadHelper.ContainsKey(bundle))

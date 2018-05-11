@@ -60,6 +60,7 @@ public class AssetBundleEditor
         StreamWriter bw = new StreamWriter(fs);
         Dictionary<string, string> readDic = new Dictionary<string, string>();
         ChangerHead(scenePath, readDic);
+        bw.WriteLine(readDic.Count);
         foreach(string key in readDic.Keys)
         {
             bw.Write(key);
