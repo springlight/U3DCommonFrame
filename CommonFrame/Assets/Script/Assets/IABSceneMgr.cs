@@ -146,14 +146,24 @@ namespace Assets.Script.Assets
             }
         }
          
-        public void DisposeBundleAndRes()
+        public void DisposeAllBundleAndRes()
         {
             abMgr.DisposeAllBundleAndRes();
+            allAsset.Clear();
         }
 
         public void DisposeAllbundle()
         {
             abMgr.DisposeAllBundle();
+            allAsset.Clear();
+        }
+
+        public void DebugAllAsset()
+        {
+            foreach(string key in allAsset.Keys)
+            {
+                abMgr.DebugAssetBundle(allAsset[key]);
+            }
         }
     }
     
