@@ -90,6 +90,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Script\Common\AssetBase.cs" />
+    <Compile Include="Assets\Script\Assets\AssetEvent.cs" />
     <Compile Include="Assets\Script\Assets\IABLoader.cs" />
     <Compile Include="Assets\Script\Assets\IABManifestLoader.cs" />
     <Compile Include="Assets\Script\Assets\IABMgr.cs" />
@@ -97,9 +99,11 @@
     <Compile Include="Assets\Script\Assets\IABResLoader.cs" />
     <Compile Include="Assets\Script\Assets\IABSceneMgr.cs" />
     <Compile Include="Assets\Script\Assets\ILoaderMgr.cs" />
+    <Compile Include="Assets\Script\Assets\NativeResLoader.cs" />
     <Compile Include="Assets\Script\Common\IPathTools.cs" />
     <Compile Include="Assets\Script\Common\MonoBase.cs" />
     <Compile Include="Assets\Script\Common\UIBase.cs" />
+    <Compile Include="Assets\Script\Manager\AssetMgr.cs" />
     <Compile Include="Assets\Script\Manager\EventNode.cs" />
     <Compile Include="Assets\Script\Manager\MgrBase.cs" />
     <Compile Include="Assets\Script\Manager\MgrCenter.cs" />

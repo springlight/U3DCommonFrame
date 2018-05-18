@@ -16,7 +16,10 @@ public class MsgBase
     /// 类似于电脑ip，根据msgId找到对应的mono
     /// </summary>
     private ushort msgId;
-
+    public MsgBase()
+    {
+        msgId = 0;
+    }
     public MsgBase(ushort msgId)
     {
         this.msgId = msgId;
@@ -32,6 +35,10 @@ public class MsgBase
         return (MgrId)mgrId;
     }
 	
-    public ushort MsgId { get { return msgId; } }
+    public ushort MsgId
+    {
+        get { return msgId; }
+        set { msgId = value; }
+    }
     
 }

@@ -39,7 +39,12 @@ public class UIMgr : MgrBase
         }
       
     }
-
+    public GameObject GetGameObj(string name)
+    {
+        if (children.ContainsKey(name))
+            return children[name];
+        return null;
+    }
     public void RegisterGameObject(string name, GameObject go)
     {
         if (!children.ContainsKey(name))

@@ -9,6 +9,7 @@
  *  -------------------------------------------------------------------------*/
 
 using Assets.Script.Common;
+using Assets.Script.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace Assets.Script
 {
     public class LoadPanelTest:UIBase 
     {
+
+
         //每一个Panel都有要处理自己的消息
         public override void ProcessEvent(MsgBase msg)
         {
@@ -28,6 +31,7 @@ namespace Assets.Script
         {
             msgIds = new ushort[] { };
             RegisterSelf(this,msgIds);
+           // UIMgr.ins.GetGameObj("lightOn").GetComponent<UIBehaviour>().AddBtnEvtListener();
         }
     }
 }
