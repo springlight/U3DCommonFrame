@@ -42,7 +42,7 @@ namespace Assets.Script.Assets
         {
             manifestPath = null;
 
-            manifestPath = IPathTools.GetAssetBundlePath();
+            manifestPath = IPathTools.GetWWWAssetBundlePath() + "/" + IPathTools.GetPlatformFloderName(Application.platform);
         }
         public void SetManifestPath(string path)
         {

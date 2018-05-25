@@ -70,6 +70,14 @@ namespace Assets.Script.Assets
             }
         }
 
+        public string GetBundleReateName(string bundleName)
+        {
+            if (allAsset.ContainsKey(bundleName))
+            {
+                return allAsset[bundleName];
+            }
+            return null;
+        }
         public IEnumerator LoadAssetSys(string bundleName)
         {
             yield return abMgr.LoadAssetBundle(bundleName);
@@ -165,6 +173,39 @@ namespace Assets.Script.Assets
                 abMgr.DebugAssetBundle(allAsset[key]);
             }
         }
+        /// <summary>
+        /// sceneone/test.ld bundleNmae = test
+        /// </summary>
+        /// <param name="sceneName"></param>
+        /// <returns></returns>
+        public bool IsLoadBundleFinisn(string bundleName)
+        {
+            if (allAsset.ContainsKey(bundleName))
+            {
+                return abMgr.IsLoadingFinish(allAsset[bundleName]);
+            }
+            else
+            {
+                Debug.LogError("is not contain bundle ==" + bundleName);
+
+            }
+            return false;
+        }
+        public bool IsLoadingAssetBundle(string bundleName)
+        {
+            if (allAsset.ContainsKey(bundleName))
+            {
+                return abMgr.IsLoadedAssetBundle(allAsset[bundleName]);
+            }
+            else
+            {
+                Debug.LogError("is not contain bundle ==" + bundleName);
+
+            }
+            return false;
+        }
+
+
     }
     
 }

@@ -19,6 +19,7 @@ namespace Assets.Script.Assets
     {
         public static ILoaderMgr ins;
         public IABSceneMgr sceneMgr;
+       
         /// <summary>
         /// key :sceneName
         /// </summary>
@@ -172,7 +173,33 @@ namespace Assets.Script.Assets
 
             }
         }
+        public bool IsLoadingBundleFinish(string sceneName, string bundleName)
+        {
+   
+            if (loadMgr.ContainsKey(sceneName))
+            {
+                IABSceneMgr tmpMgr = loadMgr[sceneName];
+                return tmpMgr.IsLoadBundleFinisn(bundleName);
 
+            }
+            return false;
+        }
+        /// <summary>
+        /// 是否已经加载bundle
+        /// </summary>
+        /// <param name="sceneName"></param>
+        /// <param name="bundleName"></param>
+        /// <returns></returns>
+        public bool IsLoadingAssetBundle(string sceneName,string bundleName)
+        {
+            if (loadMgr.ContainsKey(sceneName))
+            {
+                IABSceneMgr tmpMgr = loadMgr[sceneName];
+                return tmpMgr.IsLoadingAssetBundle(bundleName);
+
+            }
+            return false;
+        }
         private void OnDestroy()
         {
             loadMgr.Clear();
@@ -189,6 +216,16 @@ namespace Assets.Script.Assets
                 System.GC.Collect();
 
             }
+        }
+
+        public string GetBundleRetateName(string sceneName,string bundleName)
+        {
+            IABSceneMgr tmp = loadMgr[sceneName];
+            if(tmp != null)
+            {
+                return tmp.GetBundleReateName(bundleName);
+            }
+            return null;
         }
         #endregion
 

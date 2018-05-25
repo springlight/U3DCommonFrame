@@ -23,6 +23,7 @@ namespace Assets.Script.Assets
         ReleaseSingleBundle,
         ReleaseSceneBundle,
         ReleaseAll,
+        TestRes,
     }
     /// <summary>
     /// 上层发给我们的消息
@@ -52,13 +53,13 @@ namespace Assets.Script.Assets
     /// </summary>
     public class HunkAssetResBack : MsgBase
     {
-        public Object[] value;
+        public UnityEngine.Object[] value;
         public HunkAssetResBack()
         {
             this.MsgId = 0;
             this.value = null;
         }
-        public void Changer(ushort msgId,params Object[] tmpValue)
+        public void Changer(ushort msgId,params UnityEngine.Object[] tmpValue)
         {
             this.MsgId = msgId;
             this.value = tmpValue;

@@ -24,14 +24,41 @@ namespace Assets.Script
         //每一个Panel都有要处理自己的消息
         public override void ProcessEvent(MsgBase msg)
         {
+            switch (msg.MsgId)
+            {
+                case (ushort)UIEventGuo.Load:
+                    break;
+                case (ushort)UIEventGuo.Regist:
+                    break;
+          
+            }
             base.ProcessEvent(msg);
         }
 
-        private void Start()
+        private void Awake()
         {
-            msgIds = new ushort[] { };
+            //注册自己感兴趣的id
+            msgIds = new ushort[] {
+                (ushort)UIEventGuo.Load,
+                (ushort)UIEventGuo.Regist,
+            };
             RegisterSelf(this,msgIds);
            // UIMgr.ins.GetGameObj("lightOn").GetComponent<UIBehaviour>().AddBtnEvtListener();
         }
+    }
+
+    /// <summary>
+    /// 该页面需要的id
+    /// </summary>
+    public enum UIEventGuo
+    {
+        Load = MgrId.UIMgr,
+        Regist,
+        MaxValue
+    }
+
+    public enum UIEventZhang
+    {
+        NpcAttck = UIEventGuo.MaxValue,
     }
 }

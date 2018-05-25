@@ -54,8 +54,32 @@ namespace Assets.Script.Common
        public static string GetAssetBundlePath()
         {
             string platFolder = GetPlatformFloderName(Application.platform);
-            string allPath = Path.Combine(GetAppFilePath(), platFolder);
+            // string allPath = Path.Combine(GetAppFilePath(), platFolder);
+            string allPath = GetAppFilePath() + "/" + platFolder;
             return allPath;
+        }
+
+        public static string GetWWWAssetBundlePath()
+        {
+            string tmpStr = "";
+            if(Application.platform == RuntimePlatform.WindowsEditor ||
+                Application.platform == RuntimePlatform.OSXEditor)
+            {
+                tmpStr = "file:///" + GetAssetBundlePath();
+            }
+            else
+            {
+                string tmpPath = GetAssetBundlePath();
+#if UNITY_ANDROID
+                tmpStr = "jar:file://"+tmpPath;
+#elif UNITY_STANDALONE_WIN
+                tmpStr = "file:///" + tmpPath;
+#else
+                tmpStr = "file://"+tmpPath;
+#endif
+
+            }
+            return null;
         }
     }
 }

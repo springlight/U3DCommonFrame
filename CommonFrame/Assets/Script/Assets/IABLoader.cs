@@ -73,16 +73,22 @@ namespace Assets.Script.Assets
                 }
                 yield return wwwLoader.progress;
                 progress = wwwLoader.progress;
+                //if (loadProgressFun != null)
+                //{
+                //    loadProgressFun(bundleName, progress);
+                //}
+            }
+            if (progress >= 1.0f)
+            {
+                
+                resLoader = new IABResLoader(wwwLoader.assetBundle);
                 if (loadProgressFun != null)
                 {
                     loadProgressFun(bundleName, progress);
                 }
-            }
-            if (progress >= 1.0f)
-            {
                 if (loadFinishFun != null)
                     loadFinishFun(bundleName);
-                resLoader = new IABResLoader(wwwLoader.assetBundle);
+
             }
             else
             {

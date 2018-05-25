@@ -13,6 +13,8 @@ public class AssetBundleEditor
     {
         string outPath = IPathTools.GetAssetBundlePath();// Application.streamingAssetsPath + "/AssetBundle";
         //待研究打包API
+        if (!Directory.Exists(outPath))
+            Directory.CreateDirectory(outPath);
         BuildPipeline.BuildAssetBundles(outPath, 0, EditorUserBuildSettings.activeBuildTarget);
         AssetDatabase.Refresh();
     }
@@ -44,8 +46,12 @@ public class AssetBundleEditor
                  //Debug.Log("tmpPath is " + tmpPath);
                 SceneOverView(tmpPath);
             }
+           
 
         }
+
+        string outPath = IPathTools.GetAssetBundlePath();
+        CopyRecord(path, outPath);
         AssetDatabase.Refresh();
     }
     /// <summary>
@@ -222,6 +228,35 @@ public class AssetBundleEditor
             return head;
         }
        
+    }
+
+    public static void CopyRecord(string surcePath,string disPath)
+    {
+        DirectoryInfo dir = new DirectoryInfo(surcePath);
+        if (!dir.Exists)
+        {
+            Debug.Log("is not exit");
+            return;
+        }
+        if (!Directory.Exists(disPath))
+        {
+            Directory.CreateDirectory(disPath);
+        }
+
+        FileSystemInfo[] files = dir.GetFileSystemInfos();
+        for(int i = 0; i < files.Length; i++)
+        {
+            FileInfo file = files[i] as FileInfo;
+            //对于文件的操作
+            if(file != null && file.Extension == ".txt")
+            {
+                string sourFile = surcePath + file.Name;
+                string disFile = disPath + "/" + file.Name;
+                File.Copy(sourFile, disFile, true);
+                Debug.LogError("sourFile ===" + sourFile);
+                Debug.LogError("disFile ===" + disFile);
+            }
+        }
     }
 
 }

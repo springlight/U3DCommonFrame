@@ -10,6 +10,7 @@
  * 和IABResLoader 和IABLoader是层层递进的关系
  *  -------------------------------------------------------------------------*/
 
+using Assets.Script.Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -120,6 +121,9 @@ namespace Assets.Script.Assets
             this.bundleName = bundleName;
             loadProcess = progress;
             assetLoader = new IABLoader(BundleLoadFinish, progress);
+            assetLoader.SetBundleName(bundleName);
+            string bundlePath = IPathTools.GetWWWAssetBundlePath() + "/" + bundleName;
+            assetLoader.LoadResource(bundlePath);
         }
 
         public LoadProgress GetProgress()
