@@ -70,7 +70,7 @@ namespace Assets.Script.Assets
             this.MsgId = msgId;
         }
 
-        public void Changer(params Object[] tmpValue)
+        public void Changer(params UnityEngine.Object[] tmpValue)
         {
             this.value = tmpValue;
         }

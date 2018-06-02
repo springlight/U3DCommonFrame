@@ -13,14 +13,12 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectGenerator>VSTU</UnityProjectGenerator>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2017.1.0f3</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -90,7 +88,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Script\Common\AssetBase.cs" />
     <Compile Include="Assets\Script\Assets\AssetEvent.cs" />
     <Compile Include="Assets\Script\Assets\IABLoader.cs" />
     <Compile Include="Assets\Script\Assets\IABManifestLoader.cs" />
@@ -100,6 +97,7 @@
     <Compile Include="Assets\Script\Assets\IABSceneMgr.cs" />
     <Compile Include="Assets\Script\Assets\ILoaderMgr.cs" />
     <Compile Include="Assets\Script\Assets\NativeResLoader.cs" />
+    <Compile Include="Assets\Script\Common\AssetBase.cs" />
     <Compile Include="Assets\Script\Common\IPathTools.cs" />
     <Compile Include="Assets\Script\Common\MonoBase.cs" />
     <Compile Include="Assets\Script\Common\UIBase.cs" />
@@ -109,6 +107,7 @@
     <Compile Include="Assets\Script\Manager\MgrCenter.cs" />
     <Compile Include="Assets\Script\Manager\UIMgr.cs" />
     <Compile Include="Assets\Script\Msg\MsgBase.cs" />
+    <Compile Include="Assets\Script\Net\NetSocket.cs" />
     <Compile Include="Assets\Script\UI\LoadPanelTest.cs" />
     <Compile Include="Assets\Script\UI\UIBehaviour.cs" />
     <Compile Include="Assets\Script\Utils\FrameTool.cs" />
