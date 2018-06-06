@@ -40,10 +40,10 @@ public class NetSocket  {
     private string addressIp;
     private ushort port;
     private byte[] recvBuf;
-    //SocketBuffer receBuffer;
+    SocketBuffer recvBuffer;
     public NetSocket()
     {
-        //recvBuffer = new (0,RecvMsgOver);
+        recvBuffer = new SocketBuffer(0,RecvMsgOver);
         recvBuf = new byte[1024];
     }
 
@@ -74,6 +74,14 @@ public class NetSocket  {
                 callBackConnect(false, errorSocket, "连接超时");
             }
         }
+    }
+
+    public bool IsConnected()
+    {
+        if (clientSocket != null && clientSocket.Connected)
+            return true;
+        else
+            return false;
     }
 
     private void ConnectCallBack(IAsyncResult ar)
@@ -153,7 +161,7 @@ public class NetSocket  {
                 //接受的数据为空
                 if (length == 0) return;
                 //todo
-             //   recvBuffer.RecvByte(recvBuf, length);
+               recvBuffer.RecvByte(recvBuf, length);
             }
         }
         catch (Exception e)

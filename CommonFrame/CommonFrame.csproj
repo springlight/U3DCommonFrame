@@ -107,7 +107,12 @@
     <Compile Include="Assets\Script\Manager\MgrCenter.cs" />
     <Compile Include="Assets\Script\Manager\UIMgr.cs" />
     <Compile Include="Assets\Script\Msg\MsgBase.cs" />
+    <Compile Include="Assets\Script\Net\NetBase.cs" />
+    <Compile Include="Assets\Script\Net\NetMsgBase.cs" />
     <Compile Include="Assets\Script\Net\NetSocket.cs" />
+    <Compile Include="Assets\Script\Net\NetWorkToServer.cs" />
+    <Compile Include="Assets\Script\Net\SocketBuffer.cs" />
+    <Compile Include="Assets\Script\Net\TcpSocket.cs" />
     <Compile Include="Assets\Script\UI\LoadPanelTest.cs" />
     <Compile Include="Assets\Script\UI\UIBehaviour.cs" />
     <Compile Include="Assets\Script\Utils\FrameTool.cs" />

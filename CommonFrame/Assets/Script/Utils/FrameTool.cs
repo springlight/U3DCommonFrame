@@ -21,7 +21,8 @@ public enum MgrId
     GameMgr = 0,
     UIMgr = FrameTool.IdSpan,
     NPCMgr = FrameTool.IdSpan * 2,
-    AssetMgr = FrameTool.IdSpan * 3
+    AssetMgr = FrameTool.IdSpan * 3,
+    NetMgr = FrameTool.IdSpan * 4,
 
 
 }
