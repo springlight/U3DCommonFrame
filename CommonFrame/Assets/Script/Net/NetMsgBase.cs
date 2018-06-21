@@ -14,5 +14,7 @@ public class NetMsgBase : MsgBase {
         this.MsgId = BitConverter.ToUInt16(arr, 4);
     }
 
+   
+
 
 }

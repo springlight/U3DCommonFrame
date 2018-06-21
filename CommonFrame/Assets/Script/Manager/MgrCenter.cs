@@ -26,12 +26,14 @@ public class MgrCenter : MonoBehaviour {
         switch (mgr)
         {
             case MgrId.AssetMgr:
+
                 break;
             case MgrId.GameMgr:
                 break;
             case MgrId.NPCMgr:
                 break;
             case MgrId.UIMgr:
+                UIMgr.ins.SendMsg(msg);
                 break;
         }
     }
