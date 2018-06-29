@@ -7,6 +7,10 @@
  * 版本号：v1.0
  * 本类主要用途描述：
  * 框架管理类通用基类，主要负责注册和注销消息（msg)和消息对应的mono(MonoBase,也就是脚本)
+ * 一个msgId，对应一个mono
+ * 提供id查找mono有两种形式
+ * 第一种：msgId->mgr->mono(mono script)
+ * 第二种，msgId->mgr->mgrCenter->mgr->mono
  *  -------------------------------------------------------------------------*/
 using Assets.Script.Manager;
 using System.Collections;
@@ -18,12 +22,13 @@ public class MgrBase : MonoBase
 {
     /// <summary>
     /// key:msgId
-    /// value:EventNode
+    /// value:EventNode，一个EventNode就是一个类似于数据结构中的链表节点，包含一个mono，和
+    /// 下一个mono的指针
     /// </summary>
     private Dictionary<ushort, EventNode> evtTree = new Dictionary<ushort, EventNode>();
 
     /// <summary>
-    /// 一个mono脚本可能对应于多个消息
+    /// 一个mono脚本可能对应于多个消息id
     /// </summary>
     /// <param name="mono">脚本</param>
     /// <param name="ids">消息ids</param>
@@ -80,7 +85,7 @@ public class MgrBase : MonoBase
     {
         if (!evtTree.ContainsKey(id))
         {
-            Debug.Log("找不到该消息id" + id);
+            Debug.Log("找不到要注销的消息id" + id);
             return;
         }
         else
@@ -107,12 +112,12 @@ public class MgrBase : MonoBase
             else
             {
                 //找到目标节点的前一个节点
-                while(tmp.next != null && tmp.next.mono != null)
+                while(tmp.next != null && tmp.next.mono != node)
                 {
                     tmp = tmp.next;
                 }
                 //中间节点
-                if(tmp.next.next != null)
+                if( tmp.next.next != null)
                 {
                     tmp.next = tmp.next.next;
                 }
@@ -138,11 +143,14 @@ public class MgrBase : MonoBase
         {
             //注册该id的每一个mono都要执行
             EventNode tmp = evtTree[msg.MsgId];
+            //循环遍历每个注册该消息的脚本
             do
             {
+                Debug.LogError("当前处理的mono是==" + tmp.mono.ToString());
                 tmp.mono.ProcessEvent(msg);
                 tmp = tmp.next;
-            } while (tmp.next != null);
+                
+            } while (tmp != null && tmp.next != null);
         }
     }
 

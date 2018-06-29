@@ -54,6 +54,7 @@ namespace Assets.Script
     {
         Load = MgrId.UIMgr,
         Regist,
+        HaHa,
         MaxValue
     }
 

@@ -79,7 +79,7 @@ namespace Assets.Script.Common
 #endif
 
             }
-            return null;
+            return tmpStr;
         }
     }
 }

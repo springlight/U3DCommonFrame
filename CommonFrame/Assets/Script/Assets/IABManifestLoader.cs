@@ -40,7 +40,6 @@ namespace Assets.Script.Assets
 
         public IABManifestLoader()
         {
-            manifestPath = null;
 
             manifestPath = IPathTools.GetWWWAssetBundlePath() + "/" + IPathTools.GetPlatformFloderName(Application.platform);
         }

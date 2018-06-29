@@ -5,6 +5,7 @@
  * 创建时间： 2018/5/10 18:33:21
  * 版本号：v1.0
  * 本类主要用途描述：
+ * 管理一个场景下的的Assetbundle
  *  -------------------------------------------------------------------------*/
 
 using Assets.Script.Common;
@@ -28,7 +29,7 @@ namespace Assets.Script.Assets
             abMgr = new IABMgr(sceneName);
         }
         /// <summary>
-        /// 
+        /// 给商城ILoaderMgr调用
         /// </summary>
         /// <param name="sceneName"></param>
         public void ReadConfiger(string sceneName)

@@ -7,6 +7,7 @@
  * 本类主要用途描述：
  * 单个bundle管理
  * 主要处理bundle的依赖和被依赖关系.保存bundle的依赖，和依赖该bundle的关系
+ * 同时，初始化了IABLoader类
  * 和IABResLoader 和IABLoader是层层递进的关系
  *  -------------------------------------------------------------------------*/
 
@@ -21,34 +22,47 @@ namespace Assets.Script.Assets
 {
     public class IABRelationMgr
     {
-        bool isLoadFinish = false;
+       private bool isLoadFinish = false;
         /// <summary>
         /// 保存依赖关系
         /// eg；xx 依赖yy,还依赖aa
         /// 
         /// </summary>
-        List<string> depedenceBundle = null;
+        private List<string> depedenceBundle = null;
 
         /// <summary>
         /// 记载被依赖关系
         /// eg ，yy aa refer xx
         /// </summary>
-        List<string> refferBundle = null;
-        string bundleName;
-        IABLoader assetLoader;
+        private List<string> refferBundle = null;
+        private string bundleName;
+        //加载assetbundle的类
+        private IABLoader abLoader;
         private LoadProgress loadProcess;
         public IABRelationMgr()
         {
             depedenceBundle = new List<string>();
             refferBundle = new List<string>();
         }
+        public void Init(string bundleName, LoadProgress progress)
+        {
+            isLoadFinish = false;
+            this.bundleName = bundleName;
+            loadProcess = progress;
+            string bundlePath = IPathTools.GetWWWAssetBundlePath() + "/" + bundleName;
+            abLoader = new IABLoader(bundleName, bundlePath, BundleLoadFinish, progress);
+            //  assetLoader.SetBundleName(bundleName);
+
+            //  assetLoader.LoadResource(bundlePath);
+        }
 
 
         public bool IsLoadFinish { get { return isLoadFinish; } }
 
+        //开始加载assetbundle
         public IEnumerator LoadAssetBundle()
         {
-            yield return assetLoader.LoadBundle();
+            yield return abLoader.LoadBundle();
         }
         /// <summary>
         /// 添加被依赖项
@@ -67,7 +81,9 @@ namespace Assets.Script.Assets
             return refferBundle;
         }
         /// <summary>
-        /// 
+        /// 移除被依赖的关系
+        /// 比如B,C 依赖D，那么D就是被B，C依赖，如果B，C被移除了，那么
+        /// D所有的被依赖关系就没了。然后就可以删除D
         /// </summary>
         /// <param name="bundleName"></param>
         /// <returns>表示是否释放了自己</returns>
@@ -78,10 +94,10 @@ namespace Assets.Script.Assets
                 if (refferBundle[i].Equals(bundleName))
                 {
                     refferBundle.RemoveAt(i);
-                   
+                    
                 }
             }
-            //如果所有的都删除了，则删除该bundle
+            //
             if(refferBundle.Count <= 0)
             {
                 Dispose();
@@ -89,43 +105,36 @@ namespace Assets.Script.Assets
             }
             return false;
         }
+
+        #region 供上层IABMgr调用
         public void Dispose()
         {
-            if(assetLoader != null)
+            if(abLoader != null)
             {
-                assetLoader.Dispose();
+                abLoader.Dispose();
             }
         }
 
-        public UnityEngine.Object GetSingleRes(string bundleName)
+        public UnityEngine.Object GetSingleRes(string resName)
         {
-            return assetLoader.GetRes(bundleName);
+          //  return abLoader.GetSingleRes(bundleName);
+            return abLoader.GetSingleRes(resName);
         }
 
-        public UnityEngine.Object[] GetMutilRes(string bundleName)
+        public UnityEngine.Object[] GetMutilRes(string resName)
         {
-            return assetLoader.GetMutiRes(bundleName);
+            return abLoader.GetMutiRes(resName);
         }
 
         public void DebugAsset()
         {
-            if(assetLoader != null)
+            if(abLoader != null)
             {
-                assetLoader.DebugLoader();
+                abLoader.DebugLoader();
             }
         }
 
-        public void Init(string bundleName, LoadProgress progress)
-        {
-            isLoadFinish = false;
-            this.bundleName = bundleName;
-            loadProcess = progress;
-            assetLoader = new IABLoader(BundleLoadFinish, progress);
-            assetLoader.SetBundleName(bundleName);
-            string bundlePath = IPathTools.GetWWWAssetBundlePath() + "/" + bundleName;
-            assetLoader.LoadResource(bundlePath);
-        }
-
+     
         public LoadProgress GetProgress()
         {
             return loadProcess;
@@ -166,5 +175,6 @@ namespace Assets.Script.Assets
                 }
             }
         }
+        #endregion
     }
 }

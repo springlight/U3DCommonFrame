@@ -5,7 +5,8 @@
  * 创建时间： 2018/4/18 11:15:59
  * 版本号：v1.0
  * 本类主要用途描述：
- * 每一个UIPanel的直接基类，主要负责向消息中心注册自己
+ * 每一个UIPanel的直接基类，主要负责向UIMgr注册自己关心的消息
+ * 也就是向Mgr注册本UIPanel希望处理的消息
  *  -------------------------------------------------------------------------*/
 
 using System;
@@ -25,6 +26,7 @@ namespace Assets.Script.Common
 
         public void RegisterSelf(MonoBase mono,params ushort [] msgids)
         {
+            msgIds = msgids;
             UIMgr.ins.RegisterMsg(mono, msgids);
         }
 

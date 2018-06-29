@@ -4,8 +4,10 @@
  * 联系方式：1184068184@qq.com
  * 创建时间： 2018/4/27 10:41:26
  * 版本号：v1.0
- * 本类主要用途描述：
- * 用于加载AssetBundle包中的资源资源，直接操作AssetBundle.Assetbundle在上层加载过来
+ * 本类主要用途描述：、
+ * 该类主要是对assetbundle.Load(resName)的封装，直接加载给定assetbundle包里的资源,其中assetbundle由IABLoader提供
+ * 
+ * 
  *  -------------------------------------------------------------------------*/
 
 using System;
@@ -67,7 +69,8 @@ namespace Assets.Script.Assets
         /// </summary>
         public void Dispose()
         {
-            //直销毁内存中加载的bundle镜像
+            //直销毁内存中加载的bundle镜像,注意这里没有卸载
+            //从assetbundle里load的资源
             bundle.Unload(false);
         }
 

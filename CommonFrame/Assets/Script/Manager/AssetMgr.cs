@@ -17,10 +17,6 @@ namespace Assets.Script.Manager
 {
     public class AssetMgr:MgrBase
     {
-        /// <summary>
-        /// 存储每个Panel的交互控件，如button
-        /// </summary>
-       // private Dictionary<string, GameObject> children = new Dictionary<string, GameObject>();
         public static AssetMgr ins;
 
         void Awake()
@@ -42,24 +38,6 @@ namespace Assets.Script.Manager
             }
 
         }
-        //public GameObject GetGameObj(string name)
-        //{
-        //    if (children.ContainsKey(name))
-        //        return children[name];
-        //    return null;
-        //}
-        //public void RegisterGameObject(string name, GameObject go)
-        //{
-        //    if (!children.ContainsKey(name))
-        //    {
-        //        children.Add(name, go);
-        //    }
-        //}
-
-        //public void UnRegisterGameObject(string name)
-        //{
-        //    if (!children.ContainsKey(name)) return;
-        //    children.Remove(name);
-        //}
+       
     }
 }

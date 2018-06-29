@@ -22,6 +22,7 @@ namespace Assets.Script.UI
     {
         private void Awake()
         {
+          //  Debug.LogError("UIBehaviour Awake");
             UIMgr.ins.RegisterGameObject(name, gameObject);
         }
         public void AddBtnEvtListener(UnityAction action)

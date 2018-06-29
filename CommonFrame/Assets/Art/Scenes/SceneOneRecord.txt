@@ -1,5 +1,0 @@
-4
-Load sceneone/load.ld
-LoadTwo sceneone/loadtwo.ld
-Register sceneone/register.ld
-SceneOne sceneone.u3d

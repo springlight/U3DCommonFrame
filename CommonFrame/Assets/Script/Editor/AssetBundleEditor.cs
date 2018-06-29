@@ -251,7 +251,7 @@ public class AssetBundleEditor
             if(file != null && file.Extension == ".txt")
             {
                 string sourFile = surcePath + file.Name;
-                string disFile = disPath + "/" + file.Name;
+                string disFile = "/" + disPath + "/" + file.Name;
                 File.Copy(sourFile, disFile, true);
                 Debug.LogError("sourFile ===" + sourFile);
                 Debug.LogError("disFile ===" + disFile);
