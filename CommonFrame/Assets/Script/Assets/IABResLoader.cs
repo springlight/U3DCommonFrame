@@ -65,7 +65,7 @@ namespace Assets.Script.Assets
             Resources.UnloadAsset(resObj);
         }
         /// <summary>
-        /// 销毁bundle
+        /// 销毁bundle的内存镜像
         /// </summary>
         public void Dispose()
         {
@@ -73,9 +73,12 @@ namespace Assets.Script.Assets
             //从assetbundle里load的资源
             bundle.Unload(false);
         }
-
+        /// <summary>
+        /// 打印assetbundle包里的所有资源
+        /// </summary>
         public void DebugAllRes()
         {
+            Debug.Log("[IABResLoader]遍历。。所有资源");
             string[] res = bundle.GetAllAssetNames();
             for(int i = 0; i < res.Length; i++)
             {

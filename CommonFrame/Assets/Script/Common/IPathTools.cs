@@ -49,6 +49,7 @@ namespace Assets.Script.Common
             {
                 path = Application.persistentDataPath;
             }
+            Debug.LogError("app file path is " + path);
             return path;
         }
        public static string GetAssetBundlePath()

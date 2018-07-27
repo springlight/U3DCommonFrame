@@ -150,7 +150,7 @@ public class MgrBase : MonoBase
                 tmp.mono.ProcessEvent(msg);
                 tmp = tmp.next;
                 
-            } while (tmp != null && tmp.next != null);
+            } while (tmp != null);
         }
     }
 

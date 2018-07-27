@@ -1,0 +1,16 @@
+ManifestFileVersion: 0
+CRC: 1610918588
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 3e0a3b7eeeedc35dcce57a9f69bd43cd
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 31d6cfe0d16ae931b73c59d7e0c089c0
+HashAppended: 0
+ClassTypes: []
+Assets:
+- Assets/Art/Scenes/SceneOne/SceneOne111.unity
+Dependencies:
+- E:/study/unity/U3DCommonFrame/CommonFrame/Assets/StreamingAssets/Window/scenetwo/fight.ld
+- E:/study/unity/U3DCommonFrame/CommonFrame/Assets/StreamingAssets/Window/scenetwo/rich.ld

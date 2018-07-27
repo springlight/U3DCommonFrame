@@ -1,0 +1,3 @@
+2
+Fight scenetwo/fight.ld
+Rich scenetwo/rich.ld

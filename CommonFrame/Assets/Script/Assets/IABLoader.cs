@@ -18,11 +18,12 @@ using UnityEngine;
 namespace Assets.Script.Assets
 {
     public delegate void LoadFinish(string bundleName);
-    public delegate void LoadProgress(string bundle,float process);
+    public delegate void LoadProgress(string bundleName,float process);
     public class IABLoader:IDisposable
     {
         private IABResLoader resLoader;
         private string bundleName;
+        //路径
         private string bundlePath;
         private WWW wwwLoader;
         private LoadFinish loadFinishFun;
@@ -51,12 +52,11 @@ namespace Assets.Script.Assets
         /// <param name="path"></param>
         /// <param name="finishFun"></param>
         /// <param name="loadProgressFun"></param>
-        public IABLoader(string bundlename,string path,LoadFinish finishFun,LoadProgress loadProgressFun)
+        public IABLoader(string bundlename,string bundlePath,LoadFinish finishFun,LoadProgress loadProgressFun)
         {
             this.bundleName = bundlename;
-            
-            path = bundlePath;
-            loadFinishFun = finishFun;
+            this.bundlePath = bundlePath;
+            this.loadFinishFun = finishFun;
             this.loadProgressFun = loadProgressFun;
         }
 
@@ -72,9 +72,9 @@ namespace Assets.Script.Assets
         /// 要求上层传递bundle的name,暂时在第二个构造方法里传递
         /// </summary>
         /// <param name="path"></param>
-        public void SetBundleName(string bundle)
+        public void SetBundleName(string bundleName)
         {
-            bundleName = bundle;
+            this.bundleName = bundleName;
         }
 
         /// <summary>
@@ -84,6 +84,7 @@ namespace Assets.Script.Assets
         public IEnumerator LoadBundle()
         {
             wwwLoader = new WWW(bundlePath);
+            
             while (!wwwLoader.isDone)
             {
              
@@ -110,14 +111,15 @@ namespace Assets.Script.Assets
                 if (loadFinishFun != null)
                     loadFinishFun(bundleName);
 
+                wwwLoader = null;
             }
             else
             {
-                Debug.LogError("Load bundle error " + bundleName);
+                Debug.LogError("[IABLoader ]Load bundle error " + bundleName);
             }
         }
 
-        #region 供上层调用
+        #region 下层提供调用
 
         public void DebugLoader()
         {
@@ -153,7 +155,9 @@ namespace Assets.Script.Assets
             resLoader.UnLoadRes(obj);
         }
 
-
+        /// <summary>
+        /// 释放功能
+        /// </summary>
         public void Dispose()
         {
             if (resLoader != null)

@@ -5,7 +5,7 @@
  * 创建时间： 2018/4/27 14:11:37
  * 版本号：v1.0
  * 本类主要用途描述：
- * 对一个场景所有的bundle包进行管理
+ * IABMgr 对一个场景所有的bundle包进行管理
  *  -------------------------------------------------------------------------*/
 
 using System;
@@ -90,6 +90,9 @@ namespace Assets.Script.Assets
         }
 
     }
+    /// <summary>
+    /// 对一个场景所有的bundle包进行管理
+    /// </summary>
     public class IABMgr
     {
         /// <summary>

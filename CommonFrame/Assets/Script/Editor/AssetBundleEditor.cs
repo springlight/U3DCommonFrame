@@ -51,6 +51,7 @@ public class AssetBundleEditor
         }
 
         string outPath = IPathTools.GetAssetBundlePath();
+        Debug.LogError("outPaht is " + outPath);
         CopyRecord(path, outPath);
         AssetDatabase.Refresh();
     }
@@ -62,6 +63,7 @@ public class AssetBundleEditor
     {
         string txtRecordName = "Record.txt";
         string tmpPath = scenePath + txtRecordName;
+        Debug.LogError("tmpPath is " + tmpPath);
         FileStream fs = new FileStream(tmpPath, FileMode.OpenOrCreate);
         StreamWriter bw = new StreamWriter(fs);
         Dictionary<string, string> readDic = new Dictionary<string, string>();
@@ -238,9 +240,19 @@ public class AssetBundleEditor
             Debug.Log("is not exit");
             return;
         }
+        Debug.LogError("disPath is " + disPath);
         if (!Directory.Exists(disPath))
         {
-            Directory.CreateDirectory(disPath);
+            try
+            {
+                Directory.CreateDirectory(disPath);
+            }
+            catch (System.Exception e)
+            {
+
+                Debug.LogError("创建文件失败" + e.Message);
+            }
+          
         }
 
         FileSystemInfo[] files = dir.GetFileSystemInfos();
@@ -250,11 +262,13 @@ public class AssetBundleEditor
             //对于文件的操作
             if(file != null && file.Extension == ".txt")
             {
-                string sourFile = surcePath + file.Name;
-                string disFile = "/" + disPath + "/" + file.Name;
-                File.Copy(sourFile, disFile, true);
+                string sourFile = surcePath +"/" +  file.Name;
+                string disFile =   disPath + "/" + file.Name;
                 Debug.LogError("sourFile ===" + sourFile);
                 Debug.LogError("disFile ===" + disFile);
+              
+                File.Copy(sourFile, disFile, true);
+              
             }
         }
     }

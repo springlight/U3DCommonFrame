@@ -93,6 +93,10 @@
     <Compile Include="Assets\Script\UI\LoadPanelTest.cs" />
     <Compile Include="Assets\Script\UI\UIBehaviour.cs" />
     <Compile Include="Assets\Script\Utils\FrameTool.cs" />
+    <None Include="Assets\Art\Scenes\SceneOneRecord.txt" />
+    <None Include="Assets\Art\Scenes\SceneTwoRecord.txt" />
+    <None Include="Assets\StreamingAssets\Window\SceneTwoRecord.txt" />
+    <None Include="Assets\StreamingAssets\Window\SceneOneRecord.txt" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>E:/study/unity/U3DCommonFrame/CommonFrame/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

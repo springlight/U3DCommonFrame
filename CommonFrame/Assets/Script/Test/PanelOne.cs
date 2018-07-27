@@ -15,7 +15,7 @@ public class PanelOne : UIBase {
               //  Debug.LogError("PanelOne 接收到了消息 Load 消息");
                 break;
             case (ushort)UIEventGuo.Regist:
-              //  Debug.LogError("PanelOne 接收到了消息 Regist 消息");
+                Debug.LogError("PanelOne 接收到了消息 Regist 消息");
                 break;
         }
         base.ProcessEvent(msg);

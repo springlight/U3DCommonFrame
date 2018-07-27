@@ -17,6 +17,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.Script.Assets
 {
@@ -26,7 +27,7 @@ namespace Assets.Script.Assets
         /// <summary>
         /// 保存依赖关系
         /// eg；xx 依赖yy,还依赖aa
-        /// 
+        /// 则depedenceLst 里有（yy, aa）
         /// </summary>
         private List<string> depedenceBundle = null;
 
@@ -50,20 +51,15 @@ namespace Assets.Script.Assets
             this.bundleName = bundleName;
             loadProcess = progress;
             string bundlePath = IPathTools.GetWWWAssetBundlePath() + "/" + bundleName;
+            Debug.LogError(" [IABRelationMgr] bundle Path is " + bundlePath);
             abLoader = new IABLoader(bundleName, bundlePath, BundleLoadFinish, progress);
-            //  assetLoader.SetBundleName(bundleName);
-
-            //  assetLoader.LoadResource(bundlePath);
+ 
         }
 
 
         public bool IsLoadFinish { get { return isLoadFinish; } }
 
-        //开始加载assetbundle
-        public IEnumerator LoadAssetBundle()
-        {
-            yield return abLoader.LoadBundle();
-        }
+        #region Refference
         /// <summary>
         /// 添加被依赖项
         /// </summary>
@@ -105,8 +101,45 @@ namespace Assets.Script.Assets
             }
             return false;
         }
+        #endregion
+        #region Dependences
+        /// <summary>
+        /// 设置依赖
+        /// </summary>
+        /// <param name="depedences"></param>
+        public void SetDepedences(string[] depedences)
+        {
+            if (depedences.Length > 0)
+            {
+                depedenceBundle.AddRange(depedences);
+            }
+        }
 
-        #region 供上层IABMgr调用
+        public List<string> GetDepedences()
+        {
+            return depedenceBundle;
+        }
+
+        public void RemoveDepence(string bundleName)
+        {
+            for (int i = depedenceBundle.Count - 1; i >= 0; i--)
+            {
+                if (bundleName.Equals(depedenceBundle[i]))
+                {
+                    depedenceBundle.RemoveAt(i);
+                }
+            }
+        }
+        #endregion
+        #region 由下层提供API
+
+
+        //开始加载assetbundle
+        public IEnumerator LoadAssetBundle()
+        {
+            yield return abLoader.LoadBundle();
+        }
+
         public void Dispose()
         {
             if(abLoader != null)
@@ -144,37 +177,11 @@ namespace Assets.Script.Assets
             isLoadFinish = true;
         }
 
-       public string GetBundleName()
+        public string GetBundleName()
         {
             return bundleName;
         }
-        /// <summary>
-        /// 设置依赖
-        /// </summary>
-        /// <param name="depedences"></param>
-        public void SetDepedences(string [] depedences)
-        {
-            if(depedences.Length > 0)
-            {
-                depedenceBundle.AddRange(depedences);
-            }
-        }
-
-        public List<string> GetDepedences()
-        {
-            return depedenceBundle;
-        }
-
-        public void RemoveDepence(string bundleName)
-        {
-            for(int i = depedenceBundle.Count - 1; i >= 0 ; i--)
-            {
-                if (bundleName.Equals(depedenceBundle[i]))
-                {
-                    depedenceBundle.RemoveAt(i);
-                }
-            }
-        }
+       
         #endregion
     }
 }

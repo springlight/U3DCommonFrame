@@ -1,0 +1,25 @@
+ManifestFileVersion: 0
+CRC: 1625787995
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: sceneone/load.ld
+      Dependencies:
+        Dependency_0: sceneone/loadtwo.ld
+    Info_1:
+      Name: sceneone/loadtwo.ld
+      Dependencies: {}
+    Info_2:
+      Name: sceneone/register.ld
+      Dependencies: {}
+    Info_3:
+      Name: sceneone.u3d
+      Dependencies:
+        Dependency_0: scenetwo/fight.ld
+        Dependency_1: scenetwo/rich.ld
+    Info_4:
+      Name: scenetwo/fight.ld
+      Dependencies: {}
+    Info_5:
+      Name: scenetwo/rich.ld
+      Dependencies: {}
