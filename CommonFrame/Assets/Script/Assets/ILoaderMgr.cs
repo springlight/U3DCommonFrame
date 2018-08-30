@@ -5,7 +5,7 @@
  * 创建时间： 2018/5/10 18:33:49
  * 版本号：v1.0
  * 本类主要用途描述：
- * 总的模块管理者，继承自Mono
+ * 总的模块管理者，继承自Mono,该类对AssetBase提供服务
  *  -------------------------------------------------------------------------*/
 
 using System;
@@ -42,7 +42,12 @@ namespace Assets.Script.Assets
                 loadMgr.Add(sceneName, tmpMgr);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sceneName"></param>
+        /// <param name="bundleName">Load 不是sceneone/load.ld</param>
+        /// <param name="progress"></param>
         public void LoadAsset(string sceneName,string bundleName,LoadProgress progress)
         {
             if (!loadMgr.ContainsKey(sceneName))
@@ -64,12 +69,19 @@ namespace Assets.Script.Assets
             }
             else
             {
-                Debug.LogError("");
+                Debug.LogError("bunldeName 没有找到.."+ bundleName);
             }
         }
 
 
         #region 由下层提供
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sceneName"></param>
+        /// <param name="bundleName">Load</param>
+        /// <param name="resName"></param>
+        /// <returns></returns>
         public UnityEngine.Object GetSingleRes(string sceneName,string bundleName,string resName)
         {
             if (loadMgr.ContainsKey(sceneName))
@@ -79,7 +91,13 @@ namespace Assets.Script.Assets
             }
             return null;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sceneName"></param>
+        /// <param name="bundleName">Load</param>
+        /// <param name="resName"></param>
+        /// <returns></returns>
         public UnityEngine.Object []  GetMutilRes(string sceneName, string bundleName, string resName)
         {
             if (loadMgr.ContainsKey(sceneName))
@@ -106,7 +124,7 @@ namespace Assets.Script.Assets
             }
         }
         /// <summary>
-        /// 释放整个包
+        /// 释放整个bundle加载的OBJ
         /// </summary>
         /// <param name="sceneName"></param>
         /// <param name="bundleName"></param>
@@ -146,7 +164,10 @@ namespace Assets.Script.Assets
 
             }
         }
-
+        /// <summary>
+        /// 释放所有的bundle
+        /// </summary>
+        /// <param name="sceneName"></param>
         public void UnLoadAllAssetBundle(string sceneName)
         {
             if (loadMgr.ContainsKey(sceneName))
@@ -187,8 +208,8 @@ namespace Assets.Script.Assets
         /// <summary>
         /// 是否已经加载bundle
         /// </summary>
-        /// <param name="sceneName"></param>
-        /// <param name="bundleName"></param>
+        /// <param name="sceneName">Load</param>
+        /// <param name="bundleName">Load</param>
         /// <returns></returns>
         public bool IsLoadingAssetBundle(string sceneName,string bundleName)
         {
@@ -212,12 +233,16 @@ namespace Assets.Script.Assets
             {
                 IABSceneMgr tmpMgr = loadMgr[sceneName];
                 tmpMgr.DebugAllAsset();
-                //资源一下子回收太多，主动释放内存
-                System.GC.Collect();
+    
 
             }
         }
-
+        /// <summary>
+        /// 获取bundel的全名
+        /// </summary>
+        /// <param name="sceneName"></param>
+        /// <param name="bundleName"></param>
+        /// <returns></returns>
         public string GetBundleRetateName(string sceneName,string bundleName)
         {
             IABSceneMgr tmp = loadMgr[sceneName];

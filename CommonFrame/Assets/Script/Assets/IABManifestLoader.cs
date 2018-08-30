@@ -42,6 +42,7 @@ namespace Assets.Script.Assets
         {
 
             manifestPath = IPathTools.GetWWWAssetBundlePath() + "/" + IPathTools.GetPlatformFloderName(Application.platform);
+            Debug.LogError("mainfiestPath is .." + manifestPath);
         }
         public void SetManifestPath(string path)
         {

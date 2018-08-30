@@ -17,7 +17,7 @@ namespace Assets.Script.Assets
     public enum AssetEvent
     {
         HunkRes = MgrId.AssetMgr + 1,
-        ReleaseSingleObj,
+        ReleaseSingleObj,//
         ReleaseBundleObj,
         ReleaseSceneObj,
         ReleaseSingleBundle,
@@ -26,9 +26,9 @@ namespace Assets.Script.Assets
         TestRes,
     }
     /// <summary>
-    /// 上层发给我们的消息
+    /// 上层发给我们的消息,告诉我们加载什么bundle
     /// </summary>
-    public class HunkAssetRes:MsgBase
+    public class HunkAssetResMsg:MsgBase
     {
         public string sceneName;
         public string bundleName;
@@ -38,7 +38,7 @@ namespace Assets.Script.Assets
 
 
 
-        public HunkAssetRes(bool isSingle,ushort msgId,string sceneName,string bundleName,string resName,ushort backMsgId)
+        public HunkAssetResMsg(bool isSingle,ushort msgId,string sceneName,string bundleName,string resName,ushort backMsgId)
         {
             this.isSingle = isSingle;
             this.sceneName = sceneName;
@@ -50,11 +50,15 @@ namespace Assets.Script.Assets
     }
     /// <summary>
     /// 返回给上层的消息
+    /// 加载完成后，返回消息HunkAssetResMsg发送者的消息
     /// </summary>
-    public class HunkAssetResBack : MsgBase
+    public class HunkAssetResBackMsg : MsgBase
     {
+        /// <summary>
+        /// 返回加载的资源，可以多个，可以单个
+        /// </summary>
         public UnityEngine.Object[] value;
-        public HunkAssetResBack()
+        public HunkAssetResBackMsg()
         {
             this.MsgId = 0;
             this.value = null;

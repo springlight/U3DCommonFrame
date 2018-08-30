@@ -20,10 +20,8 @@ namespace Assets.Script.Assets
 
     public delegate void LoadAssetBundleCallBack(string sceneName, string bundleName);
     /// <summary>
-    /// AssetObj是对一个UnityEngine.Object的封装
-    ///一个bundle包里的Object
-    ///一个bundle包里可能有一个Object
-    ///也可能有多个Object
+    /// 单个存取
+    ///一个包里有单个或者多个obj
     /// </summary>
     public class AssetObj
     {
@@ -43,8 +41,8 @@ namespace Assets.Script.Assets
         }
     }
     /// <summary>
-    /// 存储一个bundle包里面的obj
-    /// 比如，一个bundle包含，a,b,c三个Object
+    /// 多个存取
+    /// 存的是一个bundle包里面的obj
     /// </summary>
     public class AssetResObj
     {
@@ -63,13 +61,18 @@ namespace Assets.Script.Assets
         {
             resObjs.Add(resName, tmp);
         }
-
+        /// <summary>
+        /// 释放单个
+        /// </summary>
+        /// <param name="resName"></param>
         public void Release(string resName)
         {
             if(resObjs.ContainsKey(resName))
             resObjs[resName].Release();
         }
-
+        /// <summary>
+        /// 释放多个
+        /// </summary>
         public void ReleaseAll()
         {
             List<string> keys = new List<string>();
@@ -112,26 +115,32 @@ namespace Assets.Script.Assets
         {
             this.sceneName = sceneName;
         }
-
-        public void LoadAssetBundle(string bundle, LoadProgress loadProgress, LoadAssetBundleCallBack callBack)
+        /// <summary>
+        /// 供给上层调用
+        /// </summary>
+        /// <param name="bundleName"></param>
+        /// <param name="loadProgress"></param>
+        /// <param name="callBack"></param>
+        public void LoadAssetBundle(string bundleName, LoadProgress loadProgress, LoadAssetBundleCallBack callBack)
         {
-            if (!loadHelper.ContainsKey(bundle))
+            if (!loadHelper.ContainsKey(bundleName))
             {
                 IABRelationMgr loader = new IABRelationMgr();
-                loader.Init(bundle, loadProgress);
-                loadHelper.Add(bundle, loader);
-                callBack(sceneName, bundle);
+                loader.Init(bundleName, loadProgress);
+                loadHelper.Add(bundleName, loader);
+                callBack(sceneName, bundleName);
 
             }
             else
             {
-                Debug.Log("IABMgr has contains bundle name ==" + bundle);
+                Debug.Log("IABMgr has already contained bundle name ==" + bundleName);
             }
         }
         /// <summary>
         /// 加载assetbundle，必须先加载manifest,存在问题
+        ///  callBack(sceneName, bundleName);，返回上层调用这个api
         /// </summary>
-        /// <param name="bundleName"></param>
+        /// <param name="bundleName">要加载的bundle命</param>
         /// <returns></returns>
         /// 
         public IEnumerator LoadAssetBundle(string bundleName)
@@ -143,33 +152,24 @@ namespace Assets.Script.Assets
 
             //加载各种依赖关系
             IABRelationMgr loader;
-            //if (loadHelper.ContainsKey(bundleName))
-            //       loader = loadHelper[bundleName];
-            //else
-            //{
-            //    loader = new IABRelationMgr();
-            //    loader.Init(bundleName, null);
-            //}
-                loader = loadHelper[bundleName];
-             string[] depences = GetDepedences(bundleName);
-                loader.SetDepedences(depences);
-                for (int i = 0; i < depences.Length; i++)
-                {
-                    yield return LoadAssetBundleDependences(depences[i], bundleName, loader.GetProgress());
-                }
-
-                yield return loader.LoadAssetBundle();
-            
-           
-           
-            
+       
+            loader = loadHelper[bundleName];
+            string[] depences = GetDepedences(bundleName);
+            loader.SetDepedences(depences);
+            //加载需要加载包的依赖关系
+            for (int i = 0; i < depences.Length; i++)
+            {
+                yield return LoadAssetBundleDependences(depences[i], bundleName, loader.GetProgress());
+            }
+            //依赖关系加载完之后，在加载当前需要加载的bundle
+            yield return loader.LoadAssetBundle();
         }
 
         /// <summary>
         /// 循环加载依赖关系
         /// </summary>
-        /// <param name="bundleName"></param>
-        /// <param name="refName"></param>
+        /// <param name="bundleName">要加载的依赖bundleName</param>
+        /// <param name="refName">加载的目标bundle，现在变成了依赖的bundleName的，refference关系</param>
         /// <param name="progress"></param>
         /// <returns></returns>
         private IEnumerator LoadAssetBundleDependences(string bundleName, string refName, LoadProgress progress)
@@ -202,10 +202,16 @@ namespace Assets.Script.Assets
         /// <returns></returns>
         public bool IsLoadedAssetBundle(string bundleName)
         {
-            return false;
+            return loadHelper.ContainsKey(bundleName);
+            //if (loadHelper.ContainsKey(bundleName))
+            //{
+            //    return true;
+            //}
+            //return false;
         }
         private string sceneName;
 
+        #region 由下层提供
         /// <summary>
         /// 打印
         /// </summary>
@@ -224,7 +230,16 @@ namespace Assets.Script.Assets
        /// <returns></returns>
         public bool IsLoadingFinish(string bundleName)
         {
-            return false;
+            if (loadHelper.ContainsKey(bundleName))
+            {
+                return loadHelper[bundleName].IsLoadFinish;
+            }
+            else
+            {
+            //    Debug.LogError("")
+                return false;
+            }
+           
         }
         /// <summary>
         /// 获取单个资源
@@ -242,7 +257,7 @@ namespace Assets.Script.Assets
                 if (objs != null)
                     return objs[0];
             }
-            ///表示已经加载了bundle
+            ///如果该obj没有缓存
             if (loadHelper.ContainsKey(bundleName))
             {
                 IABRelationMgr loader = loadHelper[bundleName];
@@ -281,8 +296,6 @@ namespace Assets.Script.Assets
             if (loadHelper.ContainsKey(bundleName))
             {
                 IABRelationMgr loader = loadHelper[bundleName];
-
-                //UnityEngine.Object [] tmpObj = loader.GetMutilRes(bundleName);
                 UnityEngine.Object [] tmpObj = loader.GetMutilRes(resName);
                 AssetObj tmpAssetObj = new AssetObj(tmpObj);
                 //缓存里已经有了这个包
@@ -306,7 +319,7 @@ namespace Assets.Script.Assets
         /// 释放指定bundle包下的指定资源res
         /// </summary>
         /// <param name="bundleName"></param>
-        /// <param name="resName"></param>
+        /// <param name="resName">要释放的obj</param>
         public void DisposeResObj(string bundleName,string resName)
         {
             if (loadObjs.ContainsKey(bundleName))
@@ -385,17 +398,24 @@ namespace Assets.Script.Assets
             }
             loadHelper.Clear();
         }
-
+        /// <summary>
+        /// 释放所有的bundle和资源
+        /// </summary>
         public void DisposeAllBundleAndRes()
         {
             DisposeAllObj();
             DisposeAllBundle();
         }
-     
+        /// <summary>
+        /// 从主的Manifest中获取依赖
+        /// </summary>
+        /// <param name="bundleName"></param>
+        /// <returns></returns>
         private string [] GetDepedences(string bundleName)
         {
             return IABManifestLoader.ins.GetDepedences(bundleName);
         }
+        #endregion
     }
-    
+
 }

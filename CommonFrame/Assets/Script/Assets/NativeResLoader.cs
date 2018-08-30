@@ -115,12 +115,15 @@ namespace Assets.Script.Assets
             }
         }
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
     public class NativeResLoader:AssetBase
     {
 
         void Awake()
         {
+            //注册自己关心的消息
             msgIds = new ushort[] {
                 (ushort)AssetEvent.ReleaseBundleObj,
                 (ushort)AssetEvent.ReleaseAll,
@@ -140,38 +143,38 @@ namespace Assets.Script.Assets
             {
                 case (ushort)AssetEvent.ReleaseBundleObj:
                     {
-                        HunkAssetRes tmpMsg = (HunkAssetRes)recMsg;
+                        HunkAssetResMsg tmpMsg = (HunkAssetResMsg)recMsg;
                         ILoaderMgr.ins.UnLoadBundleResObjs(tmpMsg.sceneName, tmpMsg.bundleName);
                     }
                   
                     break;
                 case (ushort)AssetEvent.ReleaseAll:
                     {
-                        HunkAssetRes tmpMsg = (HunkAssetRes)recMsg;
+                        HunkAssetResMsg tmpMsg = (HunkAssetResMsg)recMsg;
                         ILoaderMgr.ins.UnLoadAllAssetbundleAndResObj(tmpMsg.sceneName);
                     }
                     break;
                 case (ushort)AssetEvent.ReleaseSceneBundle:
                     {
-                        HunkAssetRes tmpMsg = (HunkAssetRes)recMsg;
+                        HunkAssetResMsg tmpMsg = (HunkAssetResMsg)recMsg;
                         ILoaderMgr.ins.UnLoadAllAssetBundle(tmpMsg.sceneName);
                     }
                     break;
                 case (ushort)AssetEvent.ReleaseSceneObj:
                     {
-                        HunkAssetRes tmpMsg = (HunkAssetRes)recMsg;
+                        HunkAssetResMsg tmpMsg = (HunkAssetResMsg)recMsg;
                         ILoaderMgr.ins.UnLoadAllRes(tmpMsg.sceneName);
                     }
                     break;
                 case (ushort)AssetEvent.ReleaseSingleBundle:
                     {
-                        HunkAssetRes tmpMsg = (HunkAssetRes)recMsg;
+                        HunkAssetResMsg tmpMsg = (HunkAssetResMsg)recMsg;
                         ILoaderMgr.ins.UnLoadAssetBundle(tmpMsg.sceneName,tmpMsg.bundleName);
                     }
                     break;
                 case (ushort)AssetEvent.ReleaseSingleObj:
                     {
-                        HunkAssetRes tmpMsg = (HunkAssetRes)recMsg;
+                        HunkAssetResMsg tmpMsg = (HunkAssetResMsg)recMsg;
                         ILoaderMgr.ins.UnLoadResObj(tmpMsg.sceneName, tmpMsg.bundleName, tmpMsg.resName);
                     }
                    
@@ -179,14 +182,14 @@ namespace Assets.Script.Assets
                 //请求资源
                 case (ushort)AssetEvent.HunkRes:
                     {
-                        HunkAssetRes tmpMsg = (HunkAssetRes)recMsg;
+                        HunkAssetResMsg tmpMsg = (HunkAssetResMsg)recMsg;
                         GetRes(tmpMsg.sceneName, tmpMsg.bundleName, tmpMsg.resName, tmpMsg.isSingle, tmpMsg.backMsgId);
                     }
 
                     break;
                 case (ushort)AssetEvent.TestRes:
                     {
-                        HunkAssetResBack tmpMsg = (HunkAssetResBack)recMsg;
+                        HunkAssetResBackMsg tmpMsg = (HunkAssetResBackMsg)recMsg;
                         Debug.LogError("tmpMsg.Length ==" + tmpMsg.value.Length);
                         Debug.LogError("tmpMsg.value[0] ==" + tmpMsg.value[0].name);
                         GameObject tmpGo = Instantiate(tmpMsg.value[0]) as GameObject;
@@ -205,6 +208,7 @@ namespace Assets.Script.Assets
         {
             if (tmpNode.isSingle)
             {
+                //在此，已经加载完了，可以直接获取
                 UnityEngine.Object tmpObj = ILoaderMgr.ins.GetSingleRes(tmpNode.sceneName, tmpNode.bundleName, tmpNode.resName);
                 ReleasbBack.Changer(tmpNode.backMsgId, tmpObj);
                 SendMsg(ReleasbBack);
@@ -217,14 +221,14 @@ namespace Assets.Script.Assets
             }
         }
 
-        HunkAssetResBack resBackMsg = null;
-        HunkAssetResBack ReleasbBack
+        HunkAssetResBackMsg resBackMsg = null;
+        HunkAssetResBackMsg ReleasbBack
         {
             get
             {
                 if(resBackMsg == null)
                 {
-                    resBackMsg = new HunkAssetResBack();
+                    resBackMsg = new HunkAssetResBackMsg();
                 }
                 return resBackMsg;
             }
@@ -256,6 +260,7 @@ namespace Assets.Script.Assets
 
         public void GetRes(string sceneName,string bundleName,string res,bool isSingle,ushort backId)
         {
+            Debug.LogError("消息传过来的 sceneName " + sceneName);
             ///没有加载
             if (!ILoaderMgr.ins.IsLoadingAssetBundle(sceneName, bundleName))
             {
@@ -289,7 +294,7 @@ namespace Assets.Script.Assets
                     SendMsg(ReleasbBack);
                 }
             }
-            //已经加载，但没完成
+            //已经在加载，但没加载完成，把命令存起来，等加载完了，在返回
             else
             {
                 string bundleFullName = ILoaderMgr.ins.GetBundleRetateName(sceneName, bundleName);

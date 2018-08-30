@@ -57,6 +57,7 @@ namespace Assets.Script.Common
             string platFolder = GetPlatformFloderName(Application.platform);
             // string allPath = Path.Combine(GetAppFilePath(), platFolder);
             string allPath = GetAppFilePath() + "/" + platFolder;
+            Debug.LogError("[GetAssetBundlePath ] bundlePath " + allPath);
             return allPath;
         }
 
